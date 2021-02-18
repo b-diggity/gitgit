@@ -1,0 +1,22 @@
+#!/bin/bash
+
+TREEBRANCH=$(git branch --show-current)
+
+if [[ "$TREEBRANCH" =~ ^(main|master) ]]
+then
+	echo "You are on the main branch, exiting..."
+	exit 1
+else
+	echo "On Branch: $TREEBRANCH"
+	git add .
+
+	if [ -z "$1" ]
+	then
+		COMMITNOW="Changes to code on $(date)"
+	else
+		COMMITNOW="$1"
+	fi
+
+	git commit -m "$COMMITNOW"
+	git push origin $TREEBRANCH
+fi

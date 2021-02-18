@@ -1,5 +1,3 @@
-# info
-
 # Setup SSH Key
 On Linux System:
 `ssh-keygen -t rsa -q -N '' -f ~/.ssh/id_rsa`
