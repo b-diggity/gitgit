@@ -7,6 +7,11 @@ gitgit consolidates the following commands into one easy to remember song:
 `git commit -m "some description"`
 `git push origin <branch>`
 
+# Installation
+`git clone git@github.com:b-diggity/gitgit.git`
+`cd gitgit`
+`sudo ./setup.sh`
+
 # Usage:
 Commit changes on a branch:
 `gitgit` --OR-- `gitgit "some description"`
