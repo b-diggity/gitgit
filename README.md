@@ -17,8 +17,7 @@ If you are on the main/master branch with uncommited changes, you will have the 
 Delete local branch once finished and switch back to main/master:
 `gitgit -d`
 
-
-# Setup SSH Key
+# Setup SSH Key for Github Cloning:
 On Linux System, run the following to get your key to add to github:
 `if [ ! -f ~/.ssh/id_rsa ]; then ssh-keygen -t rsa -q -N '' -f ~/.ssh/id_rsa; fi; cat ~/.ssh/id_rsa`
 
