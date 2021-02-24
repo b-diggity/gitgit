@@ -24,7 +24,10 @@ fi
 # Get current branch
 TREEBRANCH=$(git branch --show-current)
 
-if [[ "$TREEBRANCH" =~ ^(main|master) ]]
+if [[ "$1" == -v ]]
+then
+	echo "v0.0.69"
+elif [[ "$TREEBRANCH" =~ ^(main|master) ]]
 then
 	git status -s | grep -E "^ M" > /dev/null
 	if [[ $? == 0 ]]
