@@ -14,6 +14,7 @@ else
         if [[ ! $S_NAME =~ ^\.\/ ]] && [[ $S_PATH != "." ]]
         then
             echo "Please run from the directory where the script exists"
+            exit 1
         fi
 
         MYPATH="$(pwd)"
