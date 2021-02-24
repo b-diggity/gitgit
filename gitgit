@@ -26,13 +26,35 @@ TREEBRANCH=$(git branch --show-current)
 
 if [[ "$TREEBRANCH" =~ ^(main|master) ]]
 then
-	echo "You are on the main branch, exiting..."
-	exit 1
+	git status -s | grep -E "^ M" > /dev/null
+	if [[ $? == 0 ]]
+	then
+		echo "You are on the main/master branch, HOWEVER changes have been detected!"
+		read -p "Would you like to create a new branch to move the changes to? (y/n): " ANS
+		if [[ "$ANS" =~ ^(y|Y)$ ]]
+		then
+			read -p "Enter a new branch name (letters and dashes only): " NB
+			if [[ "$NB" =~ ^[-A-Za-z]+$ ]]
+			then
+				git switch -c "$NB"
+			else
+				echo "Invalid Branch Name, exiting! You still have changes on your main/master branch!"
+				exit 1
+			fi
+		else
+			echo "Leaving changes on the main/master branch alone and exiting!"
+			exit 1
+		fi
+	else
+		echo "You are on the main branch, exiting..."
+		exit 1
+	fi
 elif [[ "$1" == -d ]]
 then
 	THEBRANCH=$(git branch | sed 's/ //g' | grep -E "^(main|master)$" | head -1)
-	echo "Switching to $THEBRANCH and DELETING $TREEBRANCH"
+	echo "Switching to $THEBRANCH, updating and DELETING $TREEBRANCH"
 	git checkout $THEBRANCH
+	git pull
 	git fetch --prune
 	git branch -d $TREEBRANCH
 else
