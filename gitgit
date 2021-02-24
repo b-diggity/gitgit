@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Check for install
+which git > /dev/null
+if [[ $? != 0 ]]
+then
+	echo "git is not installed!"
+	exit 1
+fi
+
+# Check for minimum version
 GITVER=$(git --version | awk '{print $3}' | awk -F'.' '{print $1"."$2}')
 GITMIN="2.25"
 if (( $(echo "$GITVER < $GITMIN" | bc -l) ))
@@ -9,25 +18,36 @@ then
 	echo "sudo add-apt-repository ppa:git-core/ppa"
 	echo "sudo apt update"
 	echo "sudo apt install git"
+	exit 1
 fi
 
+# Get current branch
 TREEBRANCH=$(git branch --show-current)
 
 if [[ "$TREEBRANCH" =~ ^(main|master) ]]
 then
 	echo "You are on the main branch, exiting..."
 	exit 1
+elif [[ "$1" == -d ]]
+then
+	THEBRANCH=$(git branch | sed 's/ //g' | grep -E "^(main|master)$" | head -1)
+	echo "Switching to $THEBRANCH and DELETING $TREEBRANCH"
+	git checkout $THEBRANCH
+	git fetch --prune
+	git branch -d $TREEBRANCH
 else
 	echo "On Branch: $TREEBRANCH"
 	git add .
 
 	if [ -z "$1" ]
 	then
-		COMMITNOW="Changes to code on $(date)"
+		COMMITNOW="Generic change made on $(date)"
 	else
 		COMMITNOW="$1"
 	fi
 
 	git commit -m "$COMMITNOW"
 	git push origin $TREEBRANCH
+
+	echo "Thanks for using gitgit! Don't forget to: git checkout main/master"
 fi
