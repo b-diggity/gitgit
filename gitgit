@@ -24,7 +24,10 @@ fi
 # Get current branch
 TREEBRANCH=$(git branch --show-current)
 
-if [[ "$TREEBRANCH" =~ ^(main|master) ]]
+if [[ "$1" == -v ]]
+then
+	echo "v0.0.69"
+elif [[ "$TREEBRANCH" =~ ^(main|master) ]]
 then
 	git status -s | grep -E "^ M" > /dev/null
 	if [[ $? == 0 ]]
@@ -37,7 +40,8 @@ then
 			if [[ "$NB" =~ ^[-A-Za-z0-9]+$ ]]
 			then
 				git switch -c "$NB"
-				echo "Run `gitgit 'commit description'` to push the changes" 
+				echo "Run gitgit 'commit description' to push the changes" 
+				exit 0
 			else
 				echo "Invalid Branch Name, exiting! You still have changes on your main/master branch!"
 				exit 1
