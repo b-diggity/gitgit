@@ -3,6 +3,7 @@
 gitgit provides an easy way to interact with some of the most popular commands used to commit code to Github.
 
 gitgit consolidates the following commands into one easy to remember song:
+
 `git add .`
 
 `git commit -m "some description"`
