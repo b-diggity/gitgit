@@ -4,12 +4,16 @@ gitgit provides an easy way to interact with some of the most popular commands u
 
 gitgit consolidates the following commands into one easy to remember song:
 `git add .`
+
 `git commit -m "some description"`
+
 `git push origin <branch>`
 
 # Installation
-`git clone git@github.com:b-diggity/gitgit.git`
+`git clone https://github.com/b-diggity/gitgit.git`
+
 `cd gitgit`
+
 `sudo ./setup.sh`
 
 # Usage:
@@ -24,6 +28,7 @@ Delete local branch once finished and switch back to main/master:
 
 # Setup SSH Key for Github Cloning:
 On Linux System, run the following to get your key to add to github:
+
 `if [ ! -f ~/.ssh/id_rsa ]; then ssh-keygen -t rsa -q -N '' -f ~/.ssh/id_rsa; fi; cat ~/.ssh/id_rsa`
 
 Grab the key from ~/.ssh/is_rsa.pub
