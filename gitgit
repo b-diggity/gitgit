@@ -31,7 +31,10 @@ then
 elif [[ "$1" == -d ]]
 then
 	THEBRANCH=$(git branch | sed 's/ //g' | grep -E "^(main|master)$" | head -1)
-	echo $THEBRANCH
+	echo "Switching to $THEBRANCH and DELETING $TREEBRANCH"
+	git checkout $THEBRANCH
+	git fetch --prune
+	git branch -d $TREEBRANCH
 else
 	echo "On Branch: $TREEBRANCH"
 	git add .
