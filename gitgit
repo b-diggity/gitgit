@@ -68,7 +68,7 @@ else
 
 	if [ -z "$1" ]
 	then
-		COMMITNOW="Generic change made on $(date)"
+		COMMITNOW="Generic change made on $(date --utc)"
 	else
 		COMMITNOW="$1"
 	fi
