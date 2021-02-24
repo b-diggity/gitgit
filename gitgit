@@ -33,10 +33,11 @@ then
 		read -p "Would you like to create a new branch to move the changes to? (y/n): " ANS
 		if [[ "$ANS" =~ ^(y|Y)$ ]]
 		then
-			read -p "Enter a new branch name (letters and dashes only): " NB
-			if [[ "$NB" =~ ^[-A-Za-z]+$ ]]
+			read -p "Enter a new branch name (letters, numbers and dashes only): " NB
+			if [[ "$NB" =~ ^[-A-Za-z0-9]+$ ]]
 			then
 				git switch -c "$NB"
+				echo "Run `gitgit 'commit description'` to push the changes" 
 			else
 				echo "Invalid Branch Name, exiting! You still have changes on your main/master branch!"
 				exit 1
@@ -71,5 +72,5 @@ else
 	git commit -m "$COMMITNOW"
 	git push origin $TREEBRANCH
 
-	echo "Thanks for using gitgit! Don't forget to: git checkout main/master"
+	echo "Thanks for using gitgit! Don't forget to delete this branch when finished: gitgit -d"
 fi
