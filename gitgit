@@ -1,5 +1,16 @@
 #!/bin/bash
 
+GITVER=$(git --version | awk '{print $3}' | awk -F'.' '{print $1"."$2}')
+GITMIN="2.25"
+if (( $(echo "$GITVER < $GITMIN" | bc -l) ))
+then
+	echo "git version is too low! Update now!"
+	echo "Your version: $GITVER | Minimum version required: $GITMIN"
+	echo "sudo add-apt-repository ppa:git-core/ppa"
+	echo "sudo apt update"
+	echo "sudo apt install git"
+fi
+
 TREEBRANCH=$(git branch --show-current)
 
 if [[ "$TREEBRANCH" =~ ^(main|master) ]]
