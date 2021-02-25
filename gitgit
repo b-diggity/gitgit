@@ -46,6 +46,23 @@ elif [[ "$1" == -v ]] || [[ "$1" == --version ]]
 then
 	echo "gitgit v0.0.69"
 	echo "git $GITVER"
+elif [[ "$1" == -c ]] || [[ "$1" == --cleanup ]]
+then
+	git checkout $THEBRANCH
+	if [[ $? != 0 ]]
+	then
+		echo "Failed to checkout the main/master branch, exiting..."
+		exit 1
+	fi
+
+	git pull
+	git fetch --prune
+	BRANCHES=$(git branch -s | sed 's/ //g' | grep -vE "^(main|master)$")
+	for BRANCH in $BRANCHES
+	do
+		echo "Deleting branch $BRANCH"
+		git branch -d $BRANCH
+	done
 elif [[ "$TREEBRANCH" =~ ^(main|master)$ ]]
 then
 	git status -s | grep -E "^ M" > /dev/null
@@ -80,23 +97,6 @@ then
 	git pull
 	git fetch --prune
 	git branch -d $TREEBRANCH
-elif [[ "$1" == -c ]] || [[ "$1" == --cleanup ]]
-then
-	git checkout $THEBRANCH
-	if [[ $? != 0 ]]
-	then
-		echo "Failed to checkout the main/master branch, exiting..."
-		exit 1
-	fi
-
-	git pull
-	git fetch --prune
-	BRANCHES=$(git branch -s | sed 's/ //g' | grep -vE "^(main|master)$")
-	for BRANCH in $BRANCHES
-	do
-		echo "Deleting branch $BRANCH"
-		git branch -d $BRANCH
-	done
 else
 	echo "On Branch: $TREEBRANCH"
 	git add .
