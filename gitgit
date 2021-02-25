@@ -33,11 +33,11 @@ elif [[ "$1" == -h ]] || [[ "$1" == --help ]]
 then
 	echo "Usage:"
 	echo "gitgit 				Add, commit and push with generic message"
-	echo "gitgit \"<message>\"	Add, commit adn push with custom message"
+	echo "gitgit \"<message>\"		Add, commit and push with custom message"
 	echo "gitgit <option>"
 	echo ""
 	echo "Options:"
-	echo "-d|--delete    		Delete the current feature branch and switch to main/master"
+	echo "-d|--delete    			Delete the current feature branch and switch to main/master"
 	echo "-c|--cleanup			Remove any non-main/master branches"
 	echo "-h|--help    			Display this help"
 	echo "-v|--version 			Display the version"
