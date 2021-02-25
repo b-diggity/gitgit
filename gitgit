@@ -23,11 +23,30 @@ fi
 
 # Get current branch
 TREEBRANCH=$(git branch --show-current)
+THEBRANCH=$(git branch | sed 's/ //g' | grep -E "^(main|master)$" | head -1)
 
-if [[ "$1" == -v ]]
+if [ $# -gt 1 ]
 then
-	echo "v0.0.69"
-elif [[ "$TREEBRANCH" =~ ^(main|master) ]]
+	echo "Only 1 agument is supported."
+	exit 1
+elif [[ "$1" == -h ]] || [[ "$1" == --help ]]
+then
+	echo "Usage:"
+	echo "gitgit 				Add, commit and push with generic message"
+	echo "gitgit \"<message>\"	Add, commit adn push with custom message"
+	echo "gitgit <option>"
+	echo ""
+	echo "Options:"
+	echo "-d|--delete    		Delete the current feature branch and switch to main/master"
+	echo "-c|--cleanup			Remove any non-main/master branches"
+	echo "-h|--help    			Display this help"
+	echo "-v|--version 			Display the version"
+	echo 
+elif [[ "$1" == -v ]] || [[ "$1" == --version ]]
+then
+	echo "gitgit v0.0.69"
+	echo "git $GITVER"
+elif [[ "$TREEBRANCH" =~ ^(main|master)$ ]]
 then
 	git status -s | grep -E "^ M" > /dev/null
 	if [[ $? == 0 ]]
@@ -54,21 +73,37 @@ then
 		echo "You are on the main branch, exiting..."
 		exit 1
 	fi
-elif [[ "$1" == -d ]]
+elif [[ "$1" == -d ]] || [[ "$1" == --delete ]]
 then
-	THEBRANCH=$(git branch | sed 's/ //g' | grep -E "^(main|master)$" | head -1)
 	echo "Switching to $THEBRANCH, updating and DELETING $TREEBRANCH"
 	git checkout $THEBRANCH
 	git pull
 	git fetch --prune
 	git branch -d $TREEBRANCH
+elif [[ "$1" == -c ]] || [[ "$1" == --cleanup ]]
+then
+	git checkout $THEBRANCH
+	if [[ $? != 0 ]]
+	then
+		echo "Failed to checkout the main/master branch, exiting..."
+		exit 1
+	fi
+
+	git pull
+	git fetch --prune
+	BRANCHES=$(git branch -s | sed 's/ //g' | grep -vE "^(main|master)$")
+	for BRANCH in $BRANCHES
+	do
+		echo "Deleting branch $BRANCH"
+		git branch -d $BRANCH
+	done
 else
 	echo "On Branch: $TREEBRANCH"
 	git add .
 
 	if [ -z "$1" ]
 	then
-		COMMITNOW="Generic change made on $(date)"
+		COMMITNOW="Generic change made on $(date --utc)"
 	else
 		COMMITNOW="$1"
 	fi
