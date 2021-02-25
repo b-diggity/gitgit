@@ -57,7 +57,7 @@ then
 
 	git pull
 	git fetch --prune
-	BRANCHES=$(git branch -s | sed 's/ //g' | grep -vE "^(main|master)$")
+	BRANCHES=$(git branch | sed 's/ //g' | grep -vE "^\*?(main|master)$")
 	for BRANCH in $BRANCHES
 	do
 		echo "Deleting branch $BRANCH"
