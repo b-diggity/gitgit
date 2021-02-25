@@ -63,6 +63,7 @@ then
 		echo "Deleting branch $BRANCH"
 		git branch -d $BRANCH
 	done
+	exit 0
 elif [[ "$TREEBRANCH" =~ ^(main|master)$ ]]
 then
 	git status -s | grep -E "^ M" > /dev/null
