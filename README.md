@@ -27,6 +27,9 @@ If you are on the main/master branch with uncommited changes, you will have the 
 Delete local branch once finished and switch back to main/master:
 `gitgit -d`
 
+Cleanup old local feature branches and prune remote branches:
+`gitgit -c`
+
 # Setup SSH Key for Github Cloning:
 On Linux System, run the following to get your key to add to github:
 
