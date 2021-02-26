@@ -30,7 +30,7 @@ Delete local branch once finished and switch back to main/master:
 # Setup SSH Key for Github Cloning:
 On Linux System, run the following to get your key to add to github:
 
-`if [ ! -f ~/.ssh/id_rsa ]; then ssh-keygen -t rsa -q -N '' -f ~/.ssh/id_rsa; fi; cat ~/.ssh/id_rsa`
+`if [ ! -f ~/.ssh/id_rsa ]; then ssh-keygen -t rsa -q -N '' -f ~/.ssh/id_rsa; fi; cat ~/.ssh/id_rsa.pub`
 
 Grab the key from ~/.ssh/is_rsa.pub
 Paste the key into Github -> Settings -> SSH and GPB Keys -> New SSH Key
