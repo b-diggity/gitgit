@@ -25,10 +25,45 @@ fi
 TREEBRANCH=$(git branch --show-current)
 THEBRANCH=$(git branch | sed 's/ //g' | grep -E "^(main|master)$" | head -1)
 
-if [ $# -gt 1 ]
+branchit()
+{
+	if [[ "$NB" =~ ^[-A-Za-z0-9]+$ ]]
+	then
+		echo "Creating and switching to new feature branch: $NB"
+		git checkout -b $NB
+	else
+		echo "Feature branch name required and can only contain letters, numbers and dashes."
+		echo "Try: gitgit -b my-branch $NB"
+		exit 1
+	fi
+}
+
+commit()
+{
+	echo "On Branch: $TREEBRANCH"
+	git add .
+
+	if [ -z "$CM" ]
+	then
+		COMMITNOW="Generic change made on $(date --utc)"
+	else
+		COMMITNOW="$CM"
+	fi
+
+	git commit -m "$COMMITNOW"
+	git push origin $TREEBRANCH
+
+	echo "Thanks for using gitgit! Don't forget to delete this branch when finished: gitgit -d"
+}
+
+if [ $# -gt 1 ] && [[ "$1" != -b ]] && [[ "$1" != --branch ]]
 then
 	echo "Only 1 agument is supported."
 	exit 1
+elif [ $# -gt 2 ] && ([[ "$1" == -b ]] || [[ "$1" == --branch ]])
+then
+	echo "Only 2 arguments are supported for checking out a branch."
+	echo "-b <name>"
 elif [[ "$1" == -h ]] || [[ "$1" == --help ]]
 then
 	echo "Usage:"
@@ -39,6 +74,7 @@ then
 	echo "Options:"
 	echo "-d|--delete    			Delete the current feature branch and switch to main/master"
 	echo "-c|--cleanup			Remove any non-main/master branches"
+	echo "-b|--branch <name>	Create and checkout a new feature branch"
 	echo "-h|--help    			Display this help"
 	echo "-v|--version 			Display the version"
 	echo 
@@ -70,21 +106,27 @@ then
 	if [[ $? == 0 ]]
 	then
 		echo "You are on the main/master branch, HOWEVER changes have been detected!"
-		read -p "Would you like to create a new branch to move the changes to? (y/n): " ANS
-		if [[ "$ANS" =~ ^(y|Y)$ ]]
+		if [[ "$1" == -b ]] || [[ "$1" == --branch ]]
 		then
-			read -p "Enter a new branch name (letters, numbers and dashes only): " NB
-			if [[ "$NB" =~ ^[-A-Za-z0-9]+$ ]]
+			NB="$2"
+		else
+			read -p "Would you like to create a new branch to move the changes to? (y/n): " ANS
+			if [[ "$ANS" =~ ^(y|Y)$ ]]
 			then
-				git switch -c "$NB"
-				echo "Run gitgit 'commit description' to push the changes" 
-				exit 0
+				read -p "Enter a new branch name (letters, numbers and dashes only): " NB
 			else
-				echo "Invalid Branch Name, exiting! You still have changes on your main/master branch!"
+				echo "Leaving changes on the main/master branch alone and exiting!"
 				exit 1
 			fi
+		fi
+		if [[ "$NB" =~ ^[-A-Za-z0-9]+$ ]]
+		then
+			echo "Creating new branch '$NB' and migrating changes to this new feature branch."
+			git switch -c "$NB"
+			echo "Run gitgit 'commit description' to push the changes" 
+			exit 0
 		else
-			echo "Leaving changes on the main/master branch alone and exiting!"
+			echo "Invalid Branch Name, exiting! You still have changes on your main/master branch!"
 			exit 1
 		fi
 	else
@@ -98,19 +140,11 @@ then
 	git pull
 	git fetch --prune
 	git branch -d $TREEBRANCH
+elif [[ "$1" == -b ]] || [[ "$1" == --branch ]]
+then
+	NB="$2"
+	branchit
 else
-	echo "On Branch: $TREEBRANCH"
-	git add .
-
-	if [ -z "$1" ]
-	then
-		COMMITNOW="Generic change made on $(date --utc)"
-	else
-		COMMITNOW="$1"
-	fi
-
-	git commit -m "$COMMITNOW"
-	git push origin $TREEBRANCH
-
-	echo "Thanks for using gitgit! Don't forget to delete this branch when finished: gitgit -d"
+	CM="$1"
+	commit
 fi
