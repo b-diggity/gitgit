@@ -127,6 +127,7 @@ then
 			then
 				echo "Run gitgit 'commit description' to push the changes"
 			else
+				TREEBRANCH="$NB"
 				CM="$1"
 				commit
 			fi 
