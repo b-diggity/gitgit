@@ -21,8 +21,11 @@ gitgit consolidates the following commands into one easy to remember song:
 Commit changes on a branch:
 `gitgit` --OR-- `gitgit "some description"`
 
+Checkout a new branch:
+`gitgit -b <name>`
+
 If you are on the main/master branch with no changes, the program will exit.
-If you are on the main/master branch with uncommited changes, you will have the option to swith to a new branch.
+If you are on the main/master branch with uncommited changes, you will have the option to swith to a new branch.  Switching to a new branch will automatically commit unless the `-b|--branch` option is present, then a new branch will be created automatically without being prompted.
 
 Delete local branch once finished and switch back to main/master:
 `gitgit -d`
