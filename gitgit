@@ -123,7 +123,13 @@ then
 		then
 			echo "Creating new branch '$NB' and migrating changes to this new feature branch."
 			git switch -c "$NB"
-			echo "Run gitgit 'commit description' to push the changes" 
+			if [[ "$1" == -b ]] || [[ "$1" == --branch ]]
+			then
+				echo "Run gitgit 'commit description' to push the changes"
+			else
+				CM="$1"
+				commit
+			fi 
 			exit 0
 		else
 			echo "Invalid Branch Name, exiting! You still have changes on your main/master branch!"
