@@ -43,11 +43,11 @@ commit()
 	echo "On Branch: $TREEBRANCH"
 	git add .
 
-	if [ -z "$1" ]
+	if [ -z "$CM" ]
 	then
 		COMMITNOW="Generic change made on $(date --utc)"
 	else
-		COMMITNOW="$1"
+		COMMITNOW="$CM"
 	fi
 
 	git commit -m "$COMMITNOW"
@@ -121,7 +121,7 @@ then
 		fi
 		if [[ "$NB" =~ ^[-A-Za-z0-9]+$ ]]
 		then
-			echo "Creating new branch '$2' and migrating changes to this new feature branch."
+			echo "Creating new branch '$NB' and migrating changes to this new feature branch."
 			git switch -c "$NB"
 			echo "Run gitgit 'commit description' to push the changes" 
 			exit 0
@@ -145,5 +145,6 @@ then
 	NB="$2"
 	branchit
 else
+	CM="$1"
 	commit
 fi
