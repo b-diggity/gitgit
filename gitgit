@@ -102,7 +102,7 @@ then
 	exit 0
 elif [[ "$TREEBRANCH" =~ ^(main|master)$ ]]
 then
-	git status -s | grep -E "^ M" > /dev/null
+	git status -s | grep -E "^ M|^\?\?" > /dev/null
 	if [[ $? == 0 ]]
 	then
 		echo "You are on the main/master branch, HOWEVER changes have been detected!"
