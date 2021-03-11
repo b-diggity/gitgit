@@ -29,6 +29,7 @@ branchit()
 {
 	if [[ "$NB" =~ ^[-A-Za-z0-9]+$ ]]
 	then
+		git pull --ff-only
 		echo "Creating and switching to new feature branch: $NB"
 		git checkout -b $NB
 	else
@@ -45,7 +46,7 @@ commit()
 
 	if [ -z "$CM" ]
 	then
-		COMMITNOW="Generic change made on $(date --utc)"
+		COMMITNOW="Patch $(date --utc)"
 	else
 		COMMITNOW="$CM"
 	fi
@@ -91,7 +92,7 @@ then
 		exit 1
 	fi
 
-	git pull
+	git pull --ff-only
 	git fetch --prune
 	BRANCHES=$(git branch | sed 's/ //g' | grep -vE "^\*?(main|master)$")
 	for BRANCH in $BRANCHES
@@ -138,14 +139,20 @@ then
 			exit 1
 		fi
 	else
-		echo "You are on the main branch, exiting..."
-		exit 1
+		if [[ "$1" == -b ]] || [[ "$1" == --branch ]]
+		then
+			NB="$2"
+			branchit
+		else
+			echo "You are on the main branch, exiting..."
+			exit 1
+		fi
 	fi
 elif [[ "$1" == -d ]] || [[ "$1" == --delete ]]
 then
 	echo "Switching to $THEBRANCH, updating and DELETING $TREEBRANCH"
 	git checkout $THEBRANCH
-	git pull
+	git pull --ff-only
 	git fetch --prune
 	git branch -d $TREEBRANCH
 elif [[ "$1" == -b ]] || [[ "$1" == --branch ]]
