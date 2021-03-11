@@ -29,6 +29,7 @@ branchit()
 {
 	if [[ "$NB" =~ ^[-A-Za-z0-9]+$ ]]
 	then
+		git pull --ff-only
 		echo "Creating and switching to new feature branch: $NB"
 		git checkout -b $NB
 	else
@@ -91,7 +92,7 @@ then
 		exit 1
 	fi
 
-	git pull
+	git pull --ff-only
 	git fetch --prune
 	BRANCHES=$(git branch | sed 's/ //g' | grep -vE "^\*?(main|master)$")
 	for BRANCH in $BRANCHES
@@ -151,7 +152,7 @@ elif [[ "$1" == -d ]] || [[ "$1" == --delete ]]
 then
 	echo "Switching to $THEBRANCH, updating and DELETING $TREEBRANCH"
 	git checkout $THEBRANCH
-	git pull
+	git pull --ff-only
 	git fetch --prune
 	git branch -d $TREEBRANCH
 elif [[ "$1" == -b ]] || [[ "$1" == --branch ]]
