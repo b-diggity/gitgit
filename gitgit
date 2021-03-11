@@ -45,7 +45,7 @@ commit()
 
 	if [ -z "$CM" ]
 	then
-		COMMITNOW="Generic change made on $(date --utc)"
+		COMMITNOW="Patch $(date --utc)"
 	else
 		COMMITNOW="$CM"
 	fi
@@ -138,8 +138,14 @@ then
 			exit 1
 		fi
 	else
-		echo "You are on the main branch, exiting..."
-		exit 1
+		if [[ "$1" == -b ]] || [[ "$1" == --branch ]]
+		then
+			NB="$2"
+			branchit
+		else
+			echo "You are on the main branch, exiting..."
+			exit 1
+		fi
 	fi
 elif [[ "$1" == -d ]] || [[ "$1" == --delete ]]
 then
