@@ -25,6 +25,13 @@ fi
 TREEBRANCH=$(git branch --show-current)
 THEBRANCH=$(git branch | sed 's/ //g' | grep -E "^(main|master)$" | head -1)
 
+additional_commands()
+{
+	echo "Found additional commands. Running:"
+	echo "$GITGITCMD"
+	"$GITGITCMD"
+}
+
 branchit()
 {
 	if [[ "$NB" =~ ^[-A-Za-z0-9]+$ ]]
@@ -41,6 +48,13 @@ branchit()
 
 commit()
 {
+	if [ ! -z "$GITGITCMD" ]
+	then 
+		additional_commands
+	else
+		echo "No additional commands found... continuing."
+	fi
+
 	echo "On Branch: $TREEBRANCH"
 	git add .
 
