@@ -52,8 +52,7 @@ commit()
 	then 
 		additional_commands
 	else
-		echo skipping...
-		echo "$GITGITCMD"
+		echo "No additional commands found... continuing."
 	fi
 
 	echo "On Branch: $TREEBRANCH"
