@@ -40,6 +40,8 @@ Delete local branch once finished and switch back to main/master:
 Cleanup old local feature branches and prune remote branches:
 `gitgit -c`
 
+Additional commands can be run prior to add, commit and push when using gitgit by setting and exporting `GITGITCMD` with the commands that should be run.  Example: `export GITGITCMD='terraform fmt -recursive; black .'
+
 # Setup SSH Key for Github Cloning:
 On Linux System, run the following to get your key to add to github:
 
