@@ -17,7 +17,7 @@ gitgit consolidates the following commands into one easy to remember song:
 
 `sudo ./setup.sh`
 
-Be sure to leave the repo clone!  To update, see the udpate section:
+Be sure to leave the repo cloned!  To update, see the udpate section:
 
 # Update
 Navigate to the cloned repo: `cd gitgit`
