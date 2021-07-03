@@ -27,6 +27,8 @@ THEBRANCH=$(git branch | sed 's/ //g' | grep -E "^(main|master)$" | head -1)
 
 additional_commands()
 {
+	echo "Found additional commands. Running:"
+	echo "$GITGITCMD"
 	"$GITGITCMD"
 }
 
@@ -50,7 +52,7 @@ commit()
 	then 
 		additional_commands
 	fi
-	
+
 	echo "On Branch: $TREEBRANCH"
 	git add .
 
