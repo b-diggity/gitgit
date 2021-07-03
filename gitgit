@@ -51,6 +51,8 @@ commit()
 	if [ ! -z "$GITGITCMD" ]
 	then 
 		additional_commands
+	else
+		echo skipping...
 	fi
 
 	echo "On Branch: $TREEBRANCH"
