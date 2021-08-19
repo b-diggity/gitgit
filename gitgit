@@ -29,7 +29,13 @@ additional_commands()
 {
 	echo "Found additional commands. Running:"
 	echo "$GITGITCMD"
-	"$GITGITCMD"
+	ORIGIFS=$IFS
+	IFS=';'
+	for COMMAND in "$GITGITCMD"
+	do
+		eval "$COMMAND"
+	done
+	IFS=$ORIGIFS
 }
 
 branchit()
@@ -112,7 +118,7 @@ then
 	for BRANCH in $BRANCHES
 	do
 		echo "Deleting branch $BRANCH"
-		git branch -d $BRANCH
+		git branch -D $BRANCH
 	done
 	exit 0
 elif [[ "$TREEBRANCH" =~ ^(main|master)$ ]]
@@ -168,7 +174,7 @@ then
 	git checkout $THEBRANCH
 	git pull --ff-only
 	git fetch --prune
-	git branch -d $TREEBRANCH
+	git branch -D $TREEBRANCH
 elif [[ "$1" == -b ]] || [[ "$1" == --branch ]]
 then
 	NB="$2"
