@@ -135,6 +135,10 @@ then
 			if [[ "$ANS" =~ ^(y|Y)$ ]]
 			then
 				read -p "Enter a new branch name (letters, numbers and dashes only): " NB
+				if [[ -z "$NB" ]]
+				then
+					NB=${1// /-}
+				fi
 			else
 				echo "Leaving changes on the main/master branch alone and exiting!"
 				exit 1
