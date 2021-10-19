@@ -134,17 +134,17 @@ then
 			read -p "Would you like to create a new branch to move the changes to? (y/n): " ANS
 			if [[ "$ANS" =~ ^(y|Y)$ ]]
 			then
-				read -p "Enter a new branch name (letters, numbers and dashes only): " NB
+				read -p "Enter a new branch name or leave blank to use the commit message: " NB
 				if [[ -z "$NB" ]]
 				then
-					NB=${1// /-}
+					NB=${1//[\ \:]/-}
 				fi
 			else
 				echo "Leaving changes on the main/master branch alone and exiting!"
 				exit 1
 			fi
 		fi
-		if [[ "$NB" =~ ^[-A-Za-z0-9]+$ ]]
+		if [[ "$NB" =~ ^[-_A-Za-z0-9\(\)\/\\\$\%\#]+$ ]]
 		then
 			echo "Creating new branch '$NB' and migrating changes to this new feature branch."
 			git switch -c "$NB"
