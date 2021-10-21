@@ -40,14 +40,14 @@ additional_commands()
 
 branchit()
 {
-	if [[ "$NB" =~ ^[-A-Za-z0-9]+$ ]]
+	if [[ "$NB" =~ ^[-_A-Za-z0-9\(\)\/\\\$\%\#]+$ ]]
 	then
 		git pull --ff-only
 		echo "Creating and switching to new feature branch: $NB"
 		git checkout -b $NB
 	else
-		echo "Feature branch name required and can only contain letters, numbers and dashes."
-		echo "Try: gitgit -b my-branch $NB"
+		echo "Feature branch name required and can only contain allowed characters."
+		echo "Try: gitgit -b my-branch"
 		exit 1
 	fi
 }
