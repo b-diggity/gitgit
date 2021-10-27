@@ -132,7 +132,7 @@ then
 			NB="$2"
 		else
 			read -p "Would you like to create a new branch to move the changes to? (y/n): " ANS
-			if [[ "$ANS" =~ ^(y|Y)$ ]]
+			if [[ "$ANS" =~ ^(y|Y|)$ ]]
 			then
 				read -p "Enter a new branch name or leave blank to use the commit message: " NB
 				if [[ -z "$NB" ]]
