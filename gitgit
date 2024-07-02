@@ -66,7 +66,7 @@ commit()
 
 	if [ -z "$CM" ]
 	then
-		COMMITNOW="Patch $(date --utc)"
+		COMMITNOW="chore: patch $(date --utc)"
 	else
 		COMMITNOW="$CM"
 	fi
